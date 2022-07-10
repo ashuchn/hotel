@@ -28,7 +28,7 @@ class HotelController extends Controller
         if($location == ''){
             return redirect()->route('dashboard');
         }
-
+        return $location;
         // return $request->location;
         $response = Http::withHeaders([
             'X-RapidAPI-Key' => '2396fecf8bmshddf5c8ca5c98440p1bce64jsnd00b2f16e362',
