@@ -49,7 +49,7 @@
         Suggested Places:
             @foreach($suggestions as $sug)
                 <span class="text-danger">
-                  <a href="{{ route('showHotels', ['location'=>$sug->name]) }}">{{ $sug->name }}</a>
+                  <a href="{{ route('showHotels', ['location'=>urlencode($sug->name)]) }}">{{ $sug->name }}</a>
                 </span> 
             @endforeach
         </div>
