@@ -75,16 +75,21 @@ class HotelController extends Controller
                 array_push($suggestions, $object);
             }
 
-            $expiry = 300;
+            $expiry = 3000;
             Cache::put($location, $hotels, $expiry);
             Cache::put($location."_sug", $suggestions, $expiry);
     
+            /**
+             * removed db query due to heroku restrictions
+             */
+            /*
             DB::table('cache')->insert([
                 'key' => $location,
                 'value' => json_encode($hotels),
                 'expiration' => $expiry,
                 'suggestion' => \json_encode($suggestions)
             ]);
+            */
 
          }
        
@@ -100,7 +105,7 @@ class HotelController extends Controller
 
     public function listCache()
     {
-        
+
     }
 
 }
