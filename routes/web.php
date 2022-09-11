@@ -22,3 +22,5 @@ Route::get('dashboard/', [HotelController::class, 'dashboard'])->name('dashboard
 //Route::post('dashboard/hotels', [HotelController::class, 'showHotels'])->name('showHotels');
 Route::any('dashboard/hotels/{location?}', [HotelController::class, 'showHotels'])->name('showHotels');
 
+Route::get('hotel_images/id/{hotelId}', [HotelController::class, 'getHotelImages'])->name('hotelImages');
+

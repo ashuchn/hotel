@@ -48,9 +48,11 @@
       <div class="mb-2 text-right">
         Suggested Places:
             @foreach($suggestions as $sug)
-                <span class="text-danger">
-                  <a href="{{ route('showHotels', ['location'=>urlencode($sug->name)]) }}">{{ $sug->name }}</a>
-                </span> 
+                <u>
+                  <span class="text-danger">
+                      <a href="{{ route('showHotels', ['location'=>urlencode($sug->name)]) }}">{{ $sug->name }}</a>
+                  </span> 
+                </u>
             @endforeach
         </div>
        
@@ -58,10 +60,34 @@
         
       </ul>
       <div class="row">
+      <?php $i = 1; ?>
         @foreach($hotels as $hotel)
+        
           <div class="col-sm-12 col-md-6 col-lg-4 col-lg-2 mb-4">
           <div class="card text-center">
-              <img class="card-img-top" src="" alt="Card image cap">
+              <!-- <img class="card-img-top" src="" alt="Card image cap"> -->
+              <div id="carouselExampleControls<?php echo $i ?>" class="carousel slide" data-ride="carousel">
+                  <div class="carousel-inner">
+                    <?php
+                      $active = TRUE;
+                    ?>
+                    @foreach($hotel['hotelImg'] as $img)
+                        <div class="carousel-item <?php if($active == TRUE) { echo "active" ;} ?>">
+                          <img class="img-fluid card-img-top img-thumbnail" src="{{ $img }}" alt="First slide">
+                        </div>
+                        <?php  $active = FALSE; ?>
+                    @endforeach
+                        
+                  </div>
+                  <a class="carousel-control-prev" href="#carouselExampleControls<?php echo $i ?>" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselExampleControls<?php echo $i ?>" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+              </div>
                 <div class="card-body">
                     <h5 class="card-title"></h5>
                     <p class="card-text">
@@ -71,6 +97,7 @@
                 </div>
           </div>
           </div><!-- col ends -->
+          <?php $i++; ?>
         @endforeach
           
       </div> <!-- row ends -->

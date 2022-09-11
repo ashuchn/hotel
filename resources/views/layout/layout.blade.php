@@ -51,6 +51,12 @@
     margin-top: 5px;
     padding: 0 5px;
 }
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
 </style>
 
 <style>

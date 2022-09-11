@@ -10,13 +10,16 @@ use Illuminate\Support\Facades\Cache;
 
 class HotelController extends Controller
 {
-    //
+    
+    public function __construct()
+    {
+        $this->expiry = 6000;
+    }
+
     public function dashboard()
     {
         session()->put('showing', '');
         return view('dashboard');
-        
-        // $location = "mussorie";
         
     }
   
@@ -38,6 +41,16 @@ class HotelController extends Controller
         if (Cache::has($location) && Cache::has($location."_sug")){
             $Cache = Cache::get($location);
             $hotels = $Cache;
+
+            $c = count($hotels);
+
+            for($i = 0 ; $i< $c ; $i++) {
+                $destinationId = $hotels[$i]['destinationId'];
+                $link = $this->getHotelImages($destinationId);
+                $hotels[$i]['hotelImg'] = $link;
+            }
+            
+
             $citiesSuggestion = Cache::get($location."_sug");
 
             /**returns the suggestion according to user input */
@@ -62,6 +75,16 @@ class HotelController extends Controller
             ]);
     
             $hotels =  $response->json('suggestions')[1]['entities'];
+
+
+           $c = count($hotels);
+
+            for($i = 0 ; $i< $c ; $i++) {
+                $destinationId = $hotels[$i]['destinationId'];
+                $link = $this->getHotelImages($destinationId);
+                $hotels[$i]['hotelImg'] = $link;
+            }
+
             $citiesSuggestion = $response->json('suggestions')[0]['entities'];
 
             /**returns the suggestion according to user input */
@@ -75,10 +98,12 @@ class HotelController extends Controller
                 array_push($suggestions, $object);
             }
 
-            $expiry = 3000;
-            Cache::put($location, $hotels, $expiry);
-            Cache::put($location."_sug", $suggestions, $expiry);
+            // $expiry = 3000;
+            Cache::put($location, $hotels, $this->expiry);
+            Cache::put($location."_sug", $suggestions, $this->expiry);
     
+
+
             /**
              * removed db query due to heroku restrictions
              */
@@ -94,18 +119,46 @@ class HotelController extends Controller
          }
        
         $count = count($hotels);
-
+        $location = str_replace("+", " ", $location);
         session()->put('showing', "Showing ".$count." Hotels in ".$location );
         
 
-        $location = str_replace("+", " ", $location);
+        
+        // return $hotels;
         
         return view('dashboard', ["hotels" => $hotels, "location"=>$location, "suggestions" => $suggestions ]);
     }
 
-    public function listCache()
+
+
+    public function getHotelImages($hotelId)
     {
 
+        if(Cache::has($hotelId."_hImages")  ) {
+            $hotelImageLinks = Cache::get($hotelId."_hImages");
+            return $hotelImageLinks;
+        }
+
+        $response = Http::withHeaders([
+            'X-RapidAPI-Key' => env('RAPID_API_KEY'),
+            'X-RapidAPI-Host' => env('RAPID_API_HOST')
+        ])->get('https://hotels4.p.rapidapi.com/properties/get-hotel-photos', [
+            'id' => $hotelId
+        ]);
+
+        $images =  $response->json('hotelImages');
+        
+        $hotelImageLinks = array();
+
+        foreach($images as $image)
+        {
+            $link = str_replace("{size}", "b", $image['baseUrl']);
+            array_push($hotelImageLinks, $link);
+        }
+        
+        Cache::put($hotelId."_hImages", $hotelImageLinks, $this->expiry);
+
+        return $hotelImageLinks;
     }
 
 }
