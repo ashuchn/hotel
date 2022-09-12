@@ -1,3 +1,4 @@
+
 <!-- Content Wrapper. Contains page content -->
 @extends('layout.layout')
 @section('content')
@@ -10,6 +11,7 @@
             <h1 class="m-0 text-dark">Search Hotel </h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
+
         <div class="row mb-2">
           <div class="col-sm-6">
             <form action="{{ route('showHotels') }}" method="post">
@@ -97,11 +99,24 @@
                       </div>
                       <div class="col-md-6">
                           <div class="card-body">
-                              <h5 class="card-title">
-                              {{ $hotel['name'] }}
+                              <h5 class="card-title pb-2">
+                                <b>
+                                {{ $hotel['name'] }}
+                                </b>
                               </h5>
+                              <br>
+                              <hr class="hr hr-blurry" />
+
+                              <h6>Features:</h6>
                               <p class="card-text">
-                                
+                                  @foreach($hotel['ameneties'][0]['content'] as $features)
+                                      <button class="btn-outline-light text-dark shadow-none rounded-pill" style=" height: 30px;">{{ $features }}</button>
+                                  @endforeach
+                                  <?php 
+
+                                    //for($x = 0; $x < count())
+
+                                  ?>
                               </p>
                               <a href="{{ $hotel['destinationId'] }}" class="btn btn-primary">Details</a>
                           </div>

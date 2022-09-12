@@ -48,7 +48,11 @@ class HotelController extends Controller
                 $destinationId = $hotels[$i]['destinationId'];
                 $link = $this->getHotelImages($destinationId);
                 $hotels[$i]['hotelImg'] = $link;
+                $hotels[$i]['ameneties'] = $this->hotelDetails($destinationId);
             }
+
+
+            // return $hotels;
             
 
             $citiesSuggestion = Cache::get($location."_sug");
@@ -83,6 +87,7 @@ class HotelController extends Controller
                 $destinationId = $hotels[$i]['destinationId'];
                 $link = $this->getHotelImages($destinationId);
                 $hotels[$i]['hotelImg'] = $link;
+                $hotels[$i]['ameneties'] = $this->hotelDetails($destinationId);
             }
 
             $citiesSuggestion = $response->json('suggestions')[0]['entities'];
@@ -159,6 +164,33 @@ class HotelController extends Controller
         Cache::put($hotelId."_hImages", $hotelImageLinks, $this->expiry);
 
         return $hotelImageLinks;
+    }
+
+
+
+    public function hotelDetails($hotelId)
+    {
+
+        if(Cache::has($hotelId."_details"))
+        {
+            $data = Cache::get($hotelId."_details");
+            $overview = $data['body']['overview']['overviewSections']; //array of objects
+            
+            return $overview;
+        }
+
+        $response = Http::withHeaders([
+            'X-RapidAPI-Key' => env('RAPID_API_KEY'),
+            'X-RapidAPI-Host' => env('RAPID_API_HOST')
+        ])->get('https://hotels4.p.rapidapi.com/properties/get-details', [
+            'id' => $hotelId
+        ]);
+
+        
+        $data = $response->json('data');
+        Cache::put($hotelId."_details", $data, 6000);
+        $overview = $data['body']['overview']['overviewSections'];
+        return $overview;;
     }
 
 

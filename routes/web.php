@@ -24,3 +24,5 @@ Route::any('dashboard/hotels/{location?}', [HotelController::class, 'showHotels'
 
 Route::get('hotel_images/id/{hotelId}', [HotelController::class, 'getHotelImages'])->name('hotelImages');
 
+Route::get('hotel_details/id/{hotelId}', [HotelController::class, 'hotelDetails'])->name('hotelDetails');
+
