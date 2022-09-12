@@ -161,4 +161,5 @@ class HotelController extends Controller
         return $hotelImageLinks;
     }
 
+
 }
