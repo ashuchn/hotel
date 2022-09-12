@@ -48,7 +48,10 @@ class HotelController extends Controller
                 $destinationId = $hotels[$i]['destinationId'];
                 $link = $this->getHotelImages($destinationId);
                 $hotels[$i]['hotelImg'] = $link;
-                $hotels[$i]['ameneties'] = $this->hotelDetails($destinationId);
+                $data = $this->hotelDetails($destinationId);
+                $hotels[$i]['ameneties'] = $data['overview'] ;
+                $hotels[$i]['propertyDetails'] = $data['property_and_rating'] ;
+                $hotels[$i]['transport'] = $data['transport'] ;
             }
 
 
@@ -87,9 +90,12 @@ class HotelController extends Controller
                 $destinationId = $hotels[$i]['destinationId'];
                 $link = $this->getHotelImages($destinationId);
                 $hotels[$i]['hotelImg'] = $link;
-                $hotels[$i]['ameneties'] = $this->hotelDetails($destinationId);
+                $data = $this->hotelDetails($destinationId);
+                $hotels[$i]['ameneties'] = $data['overview'] ;
+                $hotels[$i]['propertyDetails'] = $data['property_and_rating'] ;
+                $hotels[$i]['transport'] = $data['transport'] ;
             }
-
+            // return $hotels;
             $citiesSuggestion = $response->json('suggestions')[0]['entities'];
 
             /**returns the suggestion according to user input */
@@ -174,9 +180,15 @@ class HotelController extends Controller
         if(Cache::has($hotelId."_details"))
         {
             $data = Cache::get($hotelId."_details");
+            $transport = $data['transport']['transportLocations']; //array of objects
             $overview = $data['body']['overview']['overviewSections']; //array of objects
-            
-            return $overview;
+            $property_and_rating = $data['body']['propertyDescription'];
+            return [
+                "overview" => $overview,
+                "property_and_rating" => $property_and_rating,
+                "transport" => $transport
+            ];
+
         }
 
         $response = Http::withHeaders([
@@ -188,9 +200,17 @@ class HotelController extends Controller
 
         
         $data = $response->json('data');
+        $transport = $response->json('transportation');
+        $data['transport'] = $transport;
         Cache::put($hotelId."_details", $data, 6000);
         $overview = $data['body']['overview']['overviewSections'];
-        return $overview;;
+        $property_and_rating = $data['body']['propertyDescription'];
+        
+        return [
+            "overview" => $overview,
+            "property_and_rating" => $property_and_rating,
+            "transport" => $transport
+        ];
     }
 
 
