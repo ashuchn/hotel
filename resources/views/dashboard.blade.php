@@ -110,7 +110,7 @@
                               <h6>Features:</h6>
                               <p class="card-text">
                                   @foreach($hotel['ameneties'][0]['content'] as $features)
-                                      <button class="btn-outline-light text-dark shadow-none rounded-pill" style=" height: 30px;">{{ $features }}</button>
+                                      <button class="btn btn-outline-light text-dark shadow-none rounded-pill" style=" height: 30px;">{{ $features }}</button>
                                   @endforeach
                                   <?php 
 
