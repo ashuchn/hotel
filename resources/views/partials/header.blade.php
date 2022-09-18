@@ -134,6 +134,11 @@
 			   <p>Dashboard</p>
 			  </a>
 			</li>
+			<li class="nav-item">
+			  <a href="{{url('quiz-dashboard')}}" class="nav-link">
+			   <p>Create Quiz</p>
+			  </a>
+			</li>
 			
 			
 			

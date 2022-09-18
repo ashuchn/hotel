@@ -65,6 +65,21 @@
   });
 </script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+    $('#clone_btn').click(function(){
+      $("#mainBody").append($("#answerDiv").clone());
+    });
+});
+</script>
+<script>
+  function setRadioBtnValue(params)
+  {
+    console.log(params.value);
+  }
+</script>
 
 
 <script>

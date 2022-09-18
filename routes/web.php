@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\QuizController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,4 +26,19 @@ Route::any('dashboard/hotels/{location?}', [HotelController::class, 'showHotels'
 Route::get('hotel_images/id/{hotelId}', [HotelController::class, 'getHotelImages'])->name('hotelImages');
 
 Route::get('hotel_details/id/{hotelId}', [HotelController::class, 'hotelDetails'])->name('hotelDetails');
+
+Route::get('quiz-dashboard', [QuizController::class, 'index'])->name('quiz-dashboard');
+
+Route::get('add-new-quiz', function(){
+    return view('quiz.addQuiz');
+})->name('add-new-quiz');
+
+Route::post('post-quiz', [QuizController::class, 'post_quiz'])->name('post-quiz');
+
+Route::get('add-quiz/{quizId}', [QuizController::class, 'add_quiz'])->name('add-quiz');
+
+Route::post('post-question/{quizId}', [QuizController::class, 'post_question'])->name('post-question');
+
+Route::get('publish-quiz/{quizId}', [QuizController::class, 'publish_quiz'])->name('publish-quiz');
+
 

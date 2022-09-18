@@ -41,6 +41,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed dark-mode">
@@ -51,6 +52,10 @@ font-family: 'Source Sans Pro', sans-serif;
   color: orange;
 }
 
+.form-control:disabled, .form-control[readonly] {
+    background-color: ghostwhite;
+    opacity: 1;
+}
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: blue;
