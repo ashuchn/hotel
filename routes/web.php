@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,4 +42,15 @@ Route::post('post-question/{quizId}', [QuizController::class, 'post_question'])-
 
 Route::get('publish-quiz/{quizId}', [QuizController::class, 'publish_quiz'])->name('publish-quiz');
 
+Route::get('signup', [AuthController::class, 'signup'])->name('signup');
 
+Route::post('signup-post', [AuthController::class, 'signup_post'])->name('signup-post');
+
+
+Route::get('pusher', function () {
+    event(new App\Events\StatusLiked('Someone1'));
+    return "Event has been sent!";
+});
+
+
+Route::view('event', 'pusher');
