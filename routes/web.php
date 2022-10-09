@@ -1,7 +1,7 @@
 <?php
-if (env('APP_ENV') === 'production') {
-    URL::forceSchema('https');
-}
+// if (env('APP_ENV') === 'production') {
+//     URL::forceSchema('https');
+// }
 
 
 use Illuminate\Support\Facades\Route;
