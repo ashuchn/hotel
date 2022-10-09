@@ -7,13 +7,15 @@
     "require": {
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
+        "genealabs/laravel-sign-in-with-apple": "*",
+        "genealabs/laravel-socialiter": "*",
         "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^8.75",
-        "laravel/sanctum": "^2.11",
+        "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
         "pusher/pusher-php-server": "^7.0",
-        "stripe/stripe-php": "^9.5",
-        "sendgrid/sendgrid": "~7"
+        "sendgrid/sendgrid": "~7",
+        "stripe/stripe-php": "^9.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -62,7 +64,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/thanks": false
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

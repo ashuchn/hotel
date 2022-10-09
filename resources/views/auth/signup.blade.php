@@ -89,7 +89,7 @@ background: #eee;
           <a class="btn btn-primary btn-lg btn-block" style="background-color: #55acee" href="#!"
             role="button">
             <i class="fab fa-twitter me-2"></i>Continue with Twitter</a>
-
+            @signInWithApple('black', 'true', 'sign-in', '0')
         </form>
       </div>
     </div>
