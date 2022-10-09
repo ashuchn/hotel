@@ -36,6 +36,26 @@ class AuthController extends Controller
         
     }
 
+    public function appleLogin()
+    {
+        return Socialite::driver("sign-in-with-apple")
+            // ->scopes(["name", "email"])
+            ->redirect();
+    }
+
+    public function appleCallback(Request $request)
+    {
+        // get abstract user object, not persisted
+        $user = Socialite::driver("sign-in-with-apple")
+            ->user();
+
+        
+        // or use Socialiter to automatically manage user resolution and persistence
+        // $user = Socialiter::driver("sign-in-with-apple")
+        //     ->login();
+        return $user;
+    }
+
     
 
 }

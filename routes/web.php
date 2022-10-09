@@ -53,4 +53,8 @@ Route::get('pusher', function () {
 });
 
 
+Route::get('appleLogin', [AuthController::class, 'appleLogin'])->name('appleLogin');
+
+Route::post('apple-callback', [AuthController::class, 'appleCallback'])->name('appleCallback');
+
 Route::view('event', 'pusher');
