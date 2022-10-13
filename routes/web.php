@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PlayerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,9 +57,14 @@ Route::get('pusher', function () {
     return "Event has been sent!";
 });
 
+Route::get('Players', [PlayerController::class, 'players'])->name('players');
+
+Route::get('fetchPlayers', [PlayerController::class, 'fetchPlayers'])->name('fetchPlayers');
 
 Route::get('appleLogin', [AuthController::class, 'appleLogin'])->name('appleLogin');
 
 Route::post('apple-callback', [AuthController::class, 'appleCallback'])->name('appleCallback');
+
+Route::get('hash/{password}', [AuthController::class, 'hash'])->name('hash');
 
 Route::view('event', 'pusher');

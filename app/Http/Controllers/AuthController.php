@@ -18,6 +18,10 @@ class AuthController extends Controller
     {
         return view('auth.signup');
     }
+    public function hash($password)
+    {
+        return Hash::make($password);
+    }
 
     public function signup_post(Request $request)
     {

@@ -139,6 +139,11 @@
 			   <p>Create Quiz</p>
 			  </a>
 			</li>
+			<li class="nav-item">
+			  <a href="{{url('Players')}}" class="nav-link">
+			   <p>Players</p>
+			  </a>
+			</li>
 			
 			
 			
