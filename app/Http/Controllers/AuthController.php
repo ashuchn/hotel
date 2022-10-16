@@ -23,6 +23,22 @@ class AuthController extends Controller
         return Hash::make($password);
     }
 
+    public function send_mail()
+    {
+        // $mail = "";
+        $to_email = 'aashutosh.quantum@gmail.com';
+        $to_name = 'ashutosh';
+        $data = array('name'=>"beautylicious", 'body' => 'this is text message');
+        
+        $sent =  Mail::send('mail', $data, function($message) use ($to_name, $to_email) {
+        $message->to($to_email, $to_name)
+        ->subject('Test Mail');
+        $message->from(env('MAIL_FROM_ADDRESS'),'Backend Dev');
+        });
+        // dd($sent);
+       return 'Email sent Successfully';
+    }
+
     public function signup_post(Request $request)
     {
 

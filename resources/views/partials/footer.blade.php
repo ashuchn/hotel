@@ -144,7 +144,15 @@
             $('#example').DataTable({
                 processing: true,
                 serverSide: true,
+                searching: false,
                 ajax: "{{ route('fetchPlayers') }}",
             });
         });
+    </script>
+
+    <script>
+      function player(params)
+      {
+        console.log(params);
+      }
     </script>

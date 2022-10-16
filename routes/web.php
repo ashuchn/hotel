@@ -68,3 +68,5 @@ Route::post('apple-callback', [AuthController::class, 'appleCallback'])->name('a
 Route::get('hash/{password}', [AuthController::class, 'hash'])->name('hash');
 
 Route::view('event', 'pusher');
+
+Route::get('send-mail', [AuthController::class, 'send_mail'])->name('send_mail');

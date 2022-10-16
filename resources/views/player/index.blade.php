@@ -47,6 +47,7 @@
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Position</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -55,6 +56,7 @@
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Position</th>
+                                    <th>Action</th>
                                 </tr>
                             </tfoot>
                         </table>
