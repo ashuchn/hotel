@@ -47,7 +47,6 @@ Route::post('post-question/{quizId}', [QuizController::class, 'post_question'])-
 
 Route::get('publish-quiz/{quizId}', [QuizController::class, 'publish_quiz'])->name('publish-quiz');
 
-Route::get('signup', [AuthController::class, 'signup'])->name('signup');
 
 Route::post('signup-post', [AuthController::class, 'signup_post'])->name('signup-post');
 
@@ -70,3 +69,18 @@ Route::get('hash/{password}', [AuthController::class, 'hash'])->name('hash');
 Route::view('event', 'pusher');
 
 Route::get('send-mail', [AuthController::class, 'send_mail'])->name('send_mail');
+
+/**
+ * google login 
+ */
+
+Route::get('auth', [AuthController::class, 'auth'])->name('auth');
+Route::get('google', [AuthController::class, 'google'])->name('google');
+Route::get('callback/google', [AuthController::class, 'googleCallback'])->name('callback.google');
+
+
+/**
+ * profile route
+ */
+
+ route::get('profile', [AuthController::class, 'profile'])->name('profile');

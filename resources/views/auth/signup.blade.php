@@ -20,7 +20,7 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css"
   rel="stylesheet"
 />
-    <title>Signup</title>
+    <title>Auth</title>
 
 <style>
     .divider:after,
@@ -78,7 +78,7 @@ background: #eee;
             <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
           </div>
 
-          <a class="btn btn-primary btn-lg btn-block" style="background-color: #3b5998" href="#!"
+          <a class="btn btn-primary btn-lg btn-block" style="background-color: #3b5998" href="{{ route('google') }}"
             role="button">
             <i class="fa-brands fa-google me-2"></i>Continue with Google
           </a>

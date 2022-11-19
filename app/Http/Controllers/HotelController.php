@@ -156,8 +156,9 @@ class HotelController extends Controller
         ])->get('https://hotels4.p.rapidapi.com/properties/get-hotel-photos', [
             'id' => $hotelId
         ]);
-
-        $images =  $response->json('hotelImages');
+        // return $response;
+        // $images =  $response->json('hotelImages');
+        $images =  $response;
         
         $hotelImageLinks = array();
 

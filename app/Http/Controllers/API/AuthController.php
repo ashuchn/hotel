@@ -33,7 +33,7 @@ class AuthController extends Controller
     
     public function pro()
     {
-        return "bhosdike";
+        return "";
         // return $request->user();
     } 
 
