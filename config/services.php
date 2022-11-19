@@ -32,7 +32,7 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_SECRET'),
-        'redirect' => 'https://ashutosh-hotel.herokuapp.com/callback/google'
+        'redirect' => 'http://ashutosh-hotel.herokuapp.com/callback/google'
         // 'redirect' => 'http://127.0.0.1:8000/callback/google'
     ]
 
