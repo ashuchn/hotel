@@ -60,7 +60,7 @@ class PlayerController extends Controller
             $tempArr[] = $value['firstName'];
             $tempArr[] = $value['lastName'];
             $tempArr[] = $value['position'];
-            
+            $tempArr[] = "<button class = 'btn btn-primary' onclick='return player(this)'>Pick</button>";
 
             array_push($mainArr,$tempArr);
         }
