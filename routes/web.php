@@ -2,6 +2,7 @@
 // if (env('APP_ENV') === 'production') {
 //     URL::forceSchema('https');
 // }
+use Illuminate\Http\Request;
 
 
 use Illuminate\Support\Facades\Route;
@@ -84,3 +85,12 @@ Route::get('callback/google', [AuthController::class, 'googleCallback'])->name('
  */
 
  route::get('profile', [AuthController::class, 'profile'])->name('profile');
+
+
+ /**
+  * email verify
+  */
+
+  
+Route::get('sendVerifyMail', [AuthController::class, 'sendVerifyMail'])->name('verify.sendMail');
+Route::get('email/verify', [AuthController::class, 'verifyEmail']);

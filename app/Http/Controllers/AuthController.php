@@ -6,21 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Social;
+use App\Models\user_verify;
 use Hash;
 use Mail;
 use App\Mail\registerMail;
+use App\Mail\sendVerifyMail;
 use Exception;
 use GeneaLabs\LaravelSocialiter\Facades\Socialiter;
 use Laravel\Socialite\Facades\Socialite;  
 use DB;  
 use Session; 
 use File; 
+use Str;
+use Illuminate\Auth\Events\Registered;
+use App\Jobs\sendMailJob;
+
 
 class AuthController extends Controller
 {
     public function auth()
     {
-        return view('auth.signup');
+        return view('auth.auth');
     }
     public function hash($password)
     {
@@ -88,6 +94,8 @@ class AuthController extends Controller
                     "provider_id" => $final['id'],
                     "provider_name" => $final['providerName'],
                 ]);
+                // event(new Registered($insertUser));
+
                 session()->put('user',$insertUser);
                 return redirect()->route('profile');
 
@@ -96,7 +104,9 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $data = session()->get('user');
+        $user = session('user');
+        $userId = $user->id;
+        $data = User::where('id', $userId)->first();
         // return $data;
         return view('profile',['data' => $data]);
     }
@@ -111,49 +121,72 @@ class AuthController extends Controller
         $sent =  Mail::send('mail', $data, function($message) use ($to_name, $to_email) {
         $message->to($to_email, $to_name)
         ->subject('Test Mail');
-        $message->from(env('MAIL_FROM_ADDRESS'),'Backend Dev');
+        $message->from(env('MAIL_FROM_ADDRESS'),'Backend Dev Security');
         });
         // dd($sent);
-       return 'Email sent Successfully';
+        if($sent) {
+            return 'Email sent Successfully';
+
+        } else {
+            dd($sent);
+        }
     }
 
-    public function signup_post(Request $request)
+    public function sendVerifyMail()
     {
 
-        // $insert = new User;
-        // $insert->name = $request->name;
-        // $insert->email = $request->email;
-        // $insert->password = Hash::make($password);
-        // $insert->save();
-        $mail= $request->email;
-        try{
-            $mailSend = Mail::to($mail)->send(new registerMail());
-        } catch(\Exception $e) {
-            return "exception: ".$e;
+        $data = session()->get('user');
+        $userId = $data->id;
+        $email = $data->email;
+        
+        $token = Str::random(64);
+        $url = url('/')."/email/verify?token=".$token."&id=".$userId;
+        
+
+        if(!isset($email)) {
+            return back()->with('message', 'Something went wrong');
         }
 
+        DB::table('users_verify')->insert([
+            "user_id" => $userId,
+            "token"=> $token
+        ]);
         
-        
+        $dd['url'] = $url;
+        $dd['email'] = $email;
+
+        // return $dd;
+        dispatch(new sendMailJob($dd));
+        // Mail::to($email)->send(new sendVerifyMail($url));
+
+        return back()->with('message', 'verification mail sent');
     }
 
-    public function appleLogin()
+    public function verifyEmail(Request $request)
     {
-        return Socialite::driver("sign-in-with-apple")
-            // ->scopes(["name", "email"])
-            ->redirect();
-    }
-
-    public function appleCallback(Request $request)
-    {
-        // get abstract user object, not persisted
-        $user = Socialite::driver("sign-in-with-apple")
-            ->user();
-        ddd($user);
+        // return $request->query();
+        $token = $request->query('token');
         
-        // or use Socialiter to automatically manage user resolution and persistence
-        // $user = Socialiter::driver("sign-in-with-apple")
-        //     ->login();
-        return $user;
+        $userId = $request->query('id');
+
+        $exists = DB::table('users_verify')
+                ->where('user_id', $userId)
+                ->where('token', $token)
+                ->exists();
+        
+        if($exists) {
+            $update = User::find($userId);
+            $update->is_email_verified = 1;
+            $update->save();
+
+            DB::table('users_verify')->where('user_id', $userId)->delete();
+
+            return redirect('profile')->with('message', 'Email Verified Successfully');
+        } else {
+            return redirect('profile')->with('message', 'Something Went Wrong');
+        }
+        
+        
     }
 
     

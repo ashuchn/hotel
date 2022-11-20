@@ -12,10 +12,11 @@
 
    
     <ul class="navbar-nav ml-auto">
-      <!-- Login Modal -->
-      <li class="nav-item dropdown">
-        <div class="btn-light btn-sm btn btn-outline-primary">Login/Signup</div>
-      </li>
+      <!-- Login Modal -->                
+            <li class="nav-item">
+              <div class="btn-light btn-sm btn btn-outline-primary">Login/Signup</div>
+            </li>
+     
     </ul>
   </nav>
   <!-- /.navbar -->

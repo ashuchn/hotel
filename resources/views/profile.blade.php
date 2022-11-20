@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="content-wrapper">
+  
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -19,7 +20,13 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
+    @if (\Session::has('message'))
+    <div class="alert alert-success">
+        <ul>
+            <li>{!! \Session::get('message') !!}</li>
+        </ul>
+    </div>
+@endif
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -41,7 +48,14 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>Email Verified</b> <a class="float-right">@if($data->email_verified_at == NULL) {{ "No" }} @else {{ "Yes" }} @endif</a>
+                    <b>Email Verified</b> <span class="float-right">
+                      <?php 
+                      if($data->is_email_verified == 0) 
+                      {  ?>
+                        <a href="{{ route('verify.sendMail') }}"><button class='btn-warning btn'>Verify</button>
+                       <?php } else { ?>
+                          Verified
+                       <?php }  ?>
                   </li>
                   <li class="list-group-item">
                     <b>Following</b> <a class="float-right">543</a>
